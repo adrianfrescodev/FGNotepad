@@ -1,3 +1,63 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.7.3/firebase-app.js";
+import {
+  getAuth,
+  signInWithPopup,
+  GoogleAuthProvider,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/11.7.3/firebase-auth.js";
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc
+} from "https://www.gstatic.com/firebasejs/11.7.3/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCnFbqk7jan3PT0rYkkBD9jaFo0gc-ahqQ",
+  authDomain: "fighting-game-notepad.firebaseapp.com",
+  projectId: "fighting-game-notepad",
+  storageBucket: "fighting-game-notepad.firebasestorage.app",
+  messagingSenderId: "354413999025",
+  appId: "1:354413999025:web:4cb24b581b83ba09ac0390",
+  measurementId: "G-9N1R7YW8QP"
+}
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+let currentuser = null;
+let logout = document.getElementById("logoutbutton");
+let login = document.getElementById("loginbutton");
+
+login.addEventListener('click', () =>{
+    signInWithPopup(auth, provider)
+  .then((result) => {
+})
+    .catch((error) => {
+    alert("Login failed");
+    }
+)
+})
+logout.addEventListener('click', () =>
+{
+    signOut(auth).then(() => {
+    location.reload();
+})
+}
+)
+
+
+onAuthStateChanged (auth, async (user) => {
+  if (user) {
+    logout.classList.add("hidden");
+    login.classList.remove("hidden");
+    currentuser = user;
+    await loadnotes(user.uid);
+  } else {
+    logout.classList.remove("hidden");
+    login.classList.add("hidden");
+  }
+})
 
 let homepage = document.getElementById("home");
 let characterScreen = document.getElementById("char-screen");
@@ -24,17 +84,37 @@ tabs.forEach( tab => {
         switchTab(e.target);
     })
 })
-function goHome(){
+async function goHome(){
     data[currentCharacter][currentTab] = userNotes.value;
+    if(currentuser){
+        await setnotes(user.uid);
+    }
     currentCharacter = "";
     homepage.classList.remove("hidden");
     characterScreen.classList.add("hidden");
     document.querySelectorAll("input[name='tab']").forEach(tab => {
     tab.checked = false;
+    
 })
+async function setnotes(userid){
+    const docRef = doc(db, "users", userid);
+    await setDoc(docRef, data);
+}
+}
+async function loadnotes(userid){
+    const docRef = doc(db, "users", userid);
+    const docSnap = await getDoc(docRef);
+    
+if (docSnap.exists()) {
+    Object.assign(data, docSnap.data);
+} else {
+
+  console.log("No such document!");
+}
+
 }
 const banner = document.getElementById("banner")
-banner.addEventListener("click", (e) =>{
+banner.addEventListener("click", () =>{
     goHome()
 })
 function loadChar(newChar){
@@ -58,10 +138,13 @@ function loadChar(newChar){
     homepage.classList.add("hidden");
     characterScreen.classList.remove("hidden");
 }
-function switchTab(newtab){
+async function switchTab(newtab){
+     if(currentuser)
+        {
+        await setnotes(user.uid);
+    }
     data[currentCharacter][currentTab] = userNotes.value;
     currentTab = newtab.value;
     userNotes.placeholder = tabmap[newtab.value];
     userNotes.value = data[currentCharacter][currentTab];
-    
 }
