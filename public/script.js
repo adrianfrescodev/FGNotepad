@@ -11,7 +11,7 @@ import {
   getDoc,
   setDoc
 } from "https://www.gstatic.com/firebasejs/11.7.3/firebase-firestore.js";
-
+import { signOut } from "https://www.gstatic.com/firebasejs/11.7.3/firebase-auth.js";
 const firebaseConfig = {
   apiKey: "AIzaSyCnFbqk7jan3PT0rYkkBD9jaFo0gc-ahqQ",
   authDomain: "fighting-game-notepad.firebaseapp.com",
@@ -99,9 +99,11 @@ tabs.forEach( tab => {
     })
 })
 async function goHome(){
-    data[currentCharacter][currentTab] = userNotes.value;
-    if(currentuser){
-        await setnotes(currentuser.uid);
+    if (currentCharacter) {
+        data[currentCharacter][currentTab] = userNotes.value;
+         if (currentuser){
+            await setnotes(currentuser.uid);
+        } 
     }
     currentCharacter = "";
     homepage.classList.remove("hidden");
@@ -112,8 +114,8 @@ async function goHome(){
 })
 }
 const banner = document.getElementById("banner")
-banner.addEventListener("click", () =>{
-    goHome()
+banner.addEventListener("click", async () =>{
+    await goHome()
 })
 function loadChar(newChar){
     if(currentCharacter !== ""){
