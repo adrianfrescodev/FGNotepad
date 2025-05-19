@@ -49,13 +49,13 @@ logout.addEventListener('click', () =>
 
 onAuthStateChanged (auth, async (user) => {
   if (user) {
-    logout.classList.add("hidden");
-    login.classList.remove("hidden");
+    logout.classList.remove("hidden");
+    login.classList.add("hidden");
     currentuser = user;
     await loadnotes(user.uid);
   } else {
-    logout.classList.remove("hidden");
-    login.classList.add("hidden");
+    logout.classList.add("hidden");
+    login.classList.remove("hidden");
   }
 })
 
