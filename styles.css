@@ -37,10 +37,10 @@ body{
     cursor: pointer;
 }
 .char-h1{
-    height: 20vw;
+    height: 20vh;
     width: 100%;
     text-align: center;
-    line-height: 20vw;
+    line-height: 20vh;
     font-size: xxx-large;
     border:1px solid white;
 }
@@ -50,10 +50,10 @@ body{
 
 }
 .character-info{
-    height: 60vw;
+    height: 70vh;
     width: 40%;
     text-align: center;
-    line-height: 10vw;
+    line-height: 10vh;
     border:1px solid white;
     font-size: xxx-large;
     display: flex;
@@ -85,7 +85,7 @@ body{
     border:1px solid white;
 }
 .character-picture{
-    height: 40vw;
+    height: 40vh;
     border: 2px white solid;
     width: 100%
 }
