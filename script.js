@@ -47,10 +47,10 @@ function loadChar(newChar){
   }
 }
     currentTab = "general";
-    userNotes.placeholder = currentTab + " notes.";
+    userNotes.placeholder = tabmap[currentTab];
     userNotes.value = data[currentCharacter][currentTab];
     currentCharacterDisplay.textContent = newChar.value;
-    currentCharacterPicture.src = "Images/" + newChar.value + ".png";
+    currentCharacterPicture.src = "Images/" + newChar.value + "-full.png";
     homepage.classList.add("hidden");
     characterScreen.classList.remove("hidden");
 

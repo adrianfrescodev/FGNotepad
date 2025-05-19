@@ -146,10 +146,14 @@ footer{
     position: fixed;
     left:10px;
     bottom:10px;
+    width: 
 }
 footer a{
     color:#F1F1F1;
     text-decoration: none;
+}
+footer p{
+    font-size: .7rem;
 }
 footer a:hover {
   text-decoration: underline;
