@@ -7,69 +7,72 @@
     <link href="styles.css" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <h1>Welcome To The Fighting Game Notepad</h1>
-        <h2>Select your character: </h2>
+    <div id="home" data-link="home" class="home">
+    <header class="home-header">
+        <h1 class="home-h1">Welcome To The Fighting Game Notepad</h1>
+        <h2 class="home-h2">Select your character: </h2>
     </header>
     <div class="chars">
     <label >
         <img src="Images/Ryu.png" alt="Ryu">
         Ryu
-        <input type="radio" name="character" value="Ryu" hidden>
+        <input type="radio" name="character" value="ryu" data-link="ryu" hidden>
     </label>
     <label >
         <img src="Images/Ken.png" alt="Ken">
         Ken
-        <input type="radio" name="character" value="Ken" hidden>
+        <input type="radio" name="character" value="ken" data-link="ken" hidden>
     </label>
     <label >
         <img src="Images/JP.png" alt="JP">
         JP
-        <input type="radio" name="character" value="JP" hidden>
+        <input type="radio" name="character" value="jp" data-link="jp" hidden>
     </label>
     <label >
         <img src="Images/Juri.png" alt="Juri">
         Juri
-        <input type="radio" name="character" value="Juri" hidden>
+        <input type="radio" name="character" value="juri" data-link="juri" hidden>
     </label>
     <label >
-        <img src="Images/Cammy.png" alt="Ryu">
+        <img src="Images/Cammy.png" alt="Cammy">
         Cammy
-        <input type="radio" name="character" value="Ryu" hidden>
+        <input type="radio" name="character" value="cammy" data-link="cammy" hidden>
     </label>
-    <label >
-        <img src="Images/Ryu.png" alt="Ryu">
-        Ryu
-        <input type="radio" name="character" value="Ryu" hidden>
-    </label>
-    <label >
-        <img src="Images/Ryu.png" alt="Ryu">
-        Ryu
-        <input type="radio" name="character" value="Ryu" hidden>
-    </label>
-    <label >
-        <img src="Images/Ryu.png" alt="Ryu">
-        Ryu
-        <input type="radio" name="character" value="Ryu" hidden>
-    </label>
-    <label >
-        <img src="Images/Ryu.png" alt="Ryu">
-        Ryu
-        <input type="radio" name="character" value="Ryu" hidden>
-    </label>
-    <label >
-        <img src="Images/Ryu.png" alt="Ryu">
-        Ryu
-        <input type="radio" name="character" value="Ryu" hidden>
-    </label>
-
-    </div>
-    <footer>Made by Adrian Fresco 
-        https://github.com/adrianfrescodev
-        
-
-
+      <footer> 
+        <a href="https://github.com/adrianfrescodev" target="_blank">Made by Adrian Fresco </a>
     </footer>
+    </div>
+    </div>
+    <div id="char-screen" class="char-screen" >
+        <button id="sidebar-button" class="sidebar-button">☰</button>
+        <header class="character-header">
+             
+            <h1 class="char-h1">Fighting Game Notepad</h1>
+
+
+        </header>
+        <div class="character-layout">
+             <div class="character-notes">
+                <div class="character-labels">
+        <label><input type="radio" name="tab" value="general"  hidden>
+            General</label>
+            <label><input type="radio" name="tab" value="key-moves"  hidden>Key Moves</label>
+            <label><input type="radio" name="tab" value="combos"  hidden>Combos</label>
+        </div>
+        <div class="user-notes">
+            Typed notes.
+        </div>
+    </div>
+        <div class="character-info">
+            <div class="character-picture" >
+                <img src="Images/Cammy.png">
+            </div>
+            <div class="character-name">Cammy
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 
 </html>
