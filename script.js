@@ -46,7 +46,20 @@ logout.addEventListener('click', () =>
 })
 }
 )
+async function setnotes(userid){
+    const docRef = doc(db, "users", userid);
+    await setDoc(docRef, data);
+}
+async function loadnotes(userid){
+    const docRef = doc(db, "users", userid);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+    Object.assign(data, docSnap.data());
+} else {
 
+  console.log("No such document!");
+}
+}
 
 onAuthStateChanged (auth, async (user) => {
   if (user) {
@@ -88,7 +101,7 @@ tabs.forEach( tab => {
 async function goHome(){
     data[currentCharacter][currentTab] = userNotes.value;
     if(currentuser){
-        await setnotes(user.uid);
+        await setnotes(currentuser.uid);
     }
     currentCharacter = "";
     homepage.classList.remove("hidden");
@@ -97,22 +110,6 @@ async function goHome(){
     tab.checked = false;
     
 })
-async function setnotes(userid){
-    const docRef = doc(db, "users", userid);
-    await setDoc(docRef, data);
-}
-}
-async function loadnotes(userid){
-    const docRef = doc(db, "users", userid);
-    const docSnap = await getDoc(docRef);
-    
-if (docSnap.exists()) {
-    Object.assign(data, docSnap.data);
-} else {
-
-  console.log("No such document!");
-}
-
 }
 const banner = document.getElementById("banner")
 banner.addEventListener("click", () =>{
@@ -142,7 +139,7 @@ function loadChar(newChar){
 async function switchTab(newtab){
      if(currentuser)
         {
-        await setnotes(user.uid);
+        await setnotes(currentuser.uid);
     }
     data[currentCharacter][currentTab] = userNotes.value;
     currentTab = newtab.value;
