@@ -22,7 +22,7 @@ body{
     display: flex;
     flex-direction: column;
     align-items: center;
-    border: 1px solid white;
+    border: 1px solid #F1F1F1;;
     margin: 0px auto;
     padding: 0px;
 }
@@ -33,7 +33,7 @@ body{
     left: 70px;
     background: none;
     border: none;
-    color: white;
+    color: #F1F1F1;;
     cursor: pointer;
 }
 .char-h1{
@@ -42,7 +42,7 @@ body{
     text-align: center;
     line-height: 20vh;
     font-size: xxx-large;
-    border:1px solid white;
+    border:1px solid #F1F1F1;;
     cursor: pointer;
 }
 .character-layout{
@@ -55,7 +55,7 @@ body{
     width: 40%;
     text-align: center;
     line-height: 10vh;
-    border:1px solid white;
+    border:1px solid #F1F1F1;;
     font-size: xxx-large;
     display: flex;
     flex-direction: column;
@@ -72,7 +72,7 @@ body{
 .character-labels label{
     display: flex;
     flex: 1;
-    border:1px solid white;
+    border:1px solid #F1F1F1;;
     height: 100%;
     align-items: center;
     text-align: center;
@@ -97,17 +97,15 @@ body{
 }
 .character-notes{
     width: 60%;
-    border:1px solid white;
+    border:1px solid #F1F1F1;;
     height: 70vh;
 }
 .character-picture{
     height: 60vh;
-    border: 1px white solid;
     width: 100%
 }
 .character-picture img{
     height: 60vh;
-    border: 1px white solid;
     width: 100%;
     object-fit: cover;
 } 
