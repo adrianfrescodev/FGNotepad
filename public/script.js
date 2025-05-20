@@ -149,11 +149,14 @@ async function switchTab(newtab){
     userNotes.value = data[currentCharacter][currentTab];
 }
 document.addEventListener("beforeunload",() => {
-   setnotes(currentuser.uid);
+  if(currentuser){
+    setnotes(currentuser.uid);
+  }
+   
 })
 
 document.addEventListener("visibilitychange", async () => {
-  if (document.visibilityState === "hidden") {
+  if (document.visibilityState === "hidden" && currentuser) {
     await setnotes(currentuser.uid);
   } 
 });
