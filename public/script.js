@@ -148,3 +148,12 @@ async function switchTab(newtab){
     userNotes.placeholder = tabmap[newtab.value];
     userNotes.value = data[currentCharacter][currentTab];
 }
+document.addEventListener("beforeunload",() => {
+   setnotes(currentuser.uid);
+})
+
+document.addEventListener("visibilitychange", async () => {
+  if (document.visibilityState === "hidden") {
+    await setnotes(currentuser.uid);
+  } 
+});
