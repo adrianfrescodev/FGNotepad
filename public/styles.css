@@ -33,6 +33,7 @@ body {
 
 .home-header {
     text-align: center;
+    position: relative;
 }
 
 .home-header h1 {
@@ -49,22 +50,27 @@ body {
     color: #aaa;
     margin-bottom: 2rem;
 }
-
-.sidebar-button {
-    z-index: 100;
+.buttons{
     position: absolute;
-    top: 30px;
-    right: 30px;
-    background: none;
-    border: 2px solid white;
-    color: #F1F1F1;
-    ;
-    cursor: pointer;
-    border-radius: 10%;
-    width: 5vw;
-    height: 3vw;
+    top: 1.5px;
+    right: 1.5px;
+    display: flex;
 }
+.sidebar-button {
+   background: none;
+   border: 1px solid #F1F1F1;
+   color: #f1f1f1;
+   padding: .5rem;
+   border-radius: 4px;
+   cursor: pointer;
+   background-color: #1a1a1a;
+   font-weight: bold;
 
+}
+.sidebar-button:hover {
+  background-color: #2a2a2a;
+  transform: scale(1.05);
+}
 .char-h1 {
     font-size: clamp(1.5rem, 5vw, 3rem);
     width: 100%;
@@ -153,7 +159,6 @@ body {
     border: none;
     padding: .5em .5em;
     outline: 0;
-    overflow-y: auto;
     font-size: 1rem;
     line-height: 1.5;
     height: 100%;
@@ -208,7 +213,6 @@ body {
     text-align: center;
     cursor: pointer;
     width: clamp(80px, 20vw, 170px);
-    ;
     padding: 0.5rem;
     background-color: #1a1a1a;
     border-radius: 6px;
@@ -294,6 +298,7 @@ input[name="tab"]:checked+label {
         padding: 1rem;
         text-transform: capitalize;
         line-height: 1;
+        margin-bottom: 1.5rem;
     }
 
 }
