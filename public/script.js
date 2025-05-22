@@ -81,7 +81,7 @@ onAuthStateChanged(auth, async (user) => {
     }
     for (const name in data) {
       if (data[name]._custom === true) {
-        createCharacter(name);
+        quickmake(name);
       }
     }
 
@@ -208,12 +208,15 @@ async function createCharacter(name) {
     alert("Name can not be blank.");
     return;
   }
-  data[name] = {
+  if(!data[name]){
+    data[name] = {
     general: "",
     "key-moves": "",
     combos: "",
     _custom: true
   }
+  }
+
   const label = document.createElement("label");
   const text = document.createTextNode(name.charAt(0).toUpperCase() + name.slice(1));
   const input = document.createElement("input");
@@ -233,4 +236,22 @@ async function createCharacter(name) {
   document.getElementById("overlay").classList.add("hidden");
   await setnotes(currentuser.uid);
   document.getElementById("newcharname").value = "";
+}
+function quickmake(name){
+  const label = document.createElement("label");
+  const text = document.createTextNode(name.charAt(0).toUpperCase() + name.slice(1));
+  const input = document.createElement("input");
+  const img = document.createElement("img");
+  img.src = "Images/default.png";
+  img.alt = name;
+  input.type = "radio";
+  input.name = "character";
+  input.value = name;
+  input.hidden = true;
+  input.addEventListener("click", (e) => loadChar(e.target));
+  label.appendChild(text);
+  label.insertBefore(img, text);
+  label.appendChild(input);
+  label.setAttribute("data-custom", "true");
+  document.querySelector(".chars").appendChild(label);
 }
