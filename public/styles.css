@@ -50,27 +50,31 @@ body {
     color: #aaa;
     margin-bottom: 2rem;
 }
-.buttons{
+
+.buttons {
     position: absolute;
     top: 1.5px;
     right: 1.5px;
     display: flex;
 }
+
 .sidebar-button {
-   background: none;
-   border: 1px solid #F1F1F1;
-   color: #f1f1f1;
-   padding: .5rem;
-   border-radius: 4px;
-   cursor: pointer;
-   background-color: #1a1a1a;
-   font-weight: bold;
+    background: none;
+    border: 1px solid #F1F1F1;
+    color: #f1f1f1;
+    padding: .5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #1a1a1a;
+    font-weight: bold;
 
 }
+
 .sidebar-button:hover {
-  background-color: #2a2a2a;
-  transform: scale(1.05);
+    background-color: #2a2a2a;
+    transform: scale(1.05);
 }
+
 .char-h1 {
     font-size: clamp(1.5rem, 5vw, 3rem);
     width: 100%;
@@ -218,6 +222,8 @@ body {
     border-radius: 6px;
     border: 1px solid #2a2a2a;
     transition: transform 0.2s ease;
+    min-height: clamp(80px, 20vw, 170px);
+    justify-content: center;
 }
 
 .chars label:hover {
@@ -269,9 +275,6 @@ footer a:hover {
     text-decoration: underline;
 }
 
-.hidden {
-    display: none;
-}
 
 input[name="tab"]:checked+label {
     background-color: #333;
@@ -301,4 +304,94 @@ input[name="tab"]:checked+label {
         margin-bottom: 1.5rem;
     }
 
+}
+
+.addchar {
+    position: fixed;
+    z-index: 99;
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(0, 0, 0, 0.6);
+    width: 100vw;
+    height: 100vh;
+    left: 0;
+    top: 0;
+    justify-content: center;
+    align-items: center;
+}
+
+.overlayframe {
+    border: solid white 1px;
+    width: 50vw;
+    height: 50vh;
+    max-width: 600px;
+    max-height: 800px;
+    padding: 0.5rem;
+    background-color: #1a1a1a;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid #2a2a2a;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+}
+
+.savecancel button {
+    cursor: pointer;
+    font-size: 1rem;
+    margin-right: .3rem;
+    border-radius: 6px;
+    font-weight: bold;
+    background-color: transparent;
+    color: #f1f1f1;
+    border: none;
+}
+
+.savecancel {
+    display: flex;
+    width: 100%;
+    justify-content: space-evenly;
+    padding: .5rem;
+    gap: 2rem;
+}
+
+.addchartext {
+    flex: 0 0 auto;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    margin-top: 14vh;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.addtext {
+    resize: none;
+    background: transparent;
+    color: #F1F1F1;
+    border: 1px solid #F1F1F1;
+    padding: .5em .5em;
+    outline: 0;
+    font-size: 1rem;
+    line-height: 1.5;
+    height: 100%;
+    width: 100%;
+    border-radius: 4px;
+
+}
+
+.savecancel button {
+    background-color: #2a2a2a;
+    width: 100%;
+    height: 100%;
+    padding: .5rem
+}
+
+.savecancel button:hover {
+    background-color: #333;
+    transform: scale(1.05);
+}
+
+.hidden {
+    display: none;
 }

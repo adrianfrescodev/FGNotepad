@@ -1,23 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fighting Game Notepad</title>
     <link href="styles.css" rel="stylesheet">
 </head>
+
 <body>
     <div id="home" data-link="home" class="home">
         <header class="home-header">
             <h1 class="home-h1">Welcome To The Fighting Game Notepad</h1>
             <h2 class="home-h2">Select your character: </h2>
             <div class="buttons">
-            <button id="loginbutton" class="sidebar-button">Login</button>
-            <button id="logoutbutton" class="sidebar-button hidden">logout</button>
+                <button id="loginbutton" class="sidebar-button">Login</button>
+                <button id="logoutbutton" class="sidebar-button hidden">logout</button>
             </div>
         </header>
         <div class="home-stuff">
+            <div class="hidden addchar" id="overlay">
+                <div class="overlayframe">
+                    <div class="addchartext">
+                        <label>New Character Name: </label>
+                        <input class="addtext" type="text" id="newcharname">
+                    </div>
+                    <div class="savecancel">
+                        <button id="cancelchar" class="cancelbut">Cancel</button>
+                        <button id="savechar" class="savebut">Save</button>
+                    </div>
+                </div>
+            </div>
             <div class="chars">
+                <label>
+                    Add Character
+                    <input type="radio" name="new" value="new" data-link="new" hidden>
+                </label>
                 <label>
                     <img src="Images/aki.png" alt="Aki">
                     Aki
@@ -36,10 +54,10 @@
                 <label>
                     <img src="Images/blanka.png" alt="blanka">
                     Blanka
-                    <input type="radio" name="character" value="juri" data-link="juri" hidden>
+                    <input type="radio" name="character" value="blanka" data-link="blanka" hidden>
                 </label>
                 <label>
-                    <img src="Images/cammy.png" alt="Cammy">
+                    <img src="Images/Cammy.png" alt="Cammy">
                     Cammy
                     <input type="radio" name="character" value="cammy" data-link="cammy" hidden>
                 </label>

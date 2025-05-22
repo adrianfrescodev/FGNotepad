@@ -39,12 +39,20 @@ login.addEventListener('click', () => {
     }
     )
 })
-logout.addEventListener('click', () => {
-  signOut(auth).then(() => {
-    location.reload();
-  })
-}
-)
+logout.addEventListener('click', async () => {
+  await setnotes(currentuser.uid)
+
+  await signOut(auth);
+  document.querySelectorAll('label[data-custom="true"]').forEach(char => char.remove());
+
+  for (const name in data) {
+    if (data[name]._custom === true) {
+      delete data[name];
+    }
+  }
+  location.reload();
+})
+
 async function setnotes(userid) {
   const docRef = doc(db, "users", userid);
   await setDoc(docRef, data);
@@ -66,6 +74,17 @@ onAuthStateChanged(auth, async (user) => {
     login.classList.add("hidden");
     currentuser = user;
     await loadnotes(user.uid);
+    for (const name in data) {
+      if (!('_custom' in data[name])) {
+        data[name]._custom = false;
+      }
+    }
+    for (const name in data) {
+      if (data[name]._custom === true) {
+        createCharacter(name);
+      }
+    }
+
   } else {
     logout.classList.add("hidden");
     login.classList.remove("hidden");
@@ -125,7 +144,8 @@ function loadChar(newChar) {
     data[newChar.value] = {
       general: "",
       "key-moves": "",
-      combos: ""
+      combos: "",
+      _custom: false
     }
   }
   currentTab = "general";
@@ -135,6 +155,9 @@ function loadChar(newChar) {
   currentCharacterDisplayPc.textContent = newChar.value;
   currentCharacterDisplayMobile.textContent = newChar.value;
   currentCharacterPicture.src = "Images/" + newChar.value + "-full.png";
+  currentCharacterPicture.onerror = () => {
+    currentCharacterPicture.src = "Images/default.png";
+  }
   homepage.classList.add("hidden");
   characterScreen.classList.remove("hidden");
 }
@@ -153,9 +176,61 @@ document.addEventListener("beforeunload", () => {
   }
 
 })
-
 document.addEventListener("visibilitychange", async () => {
   if (document.visibilityState === "hidden" && currentuser) {
     await setnotes(currentuser.uid);
   }
-});
+})
+const addChar = document.getElementsByName("new")[0];
+addChar.addEventListener("click", () => {
+  document.getElementById("overlay").classList.remove("hidden");
+  document.getElementById("newcharname").focus()
+})
+const cancelbtn = document.getElementById("cancelchar");
+const savebtn = document.getElementById("savechar");
+cancelbtn.addEventListener("click", () => {
+  document.getElementById("overlay").classList.add("hidden");
+})
+
+savebtn.addEventListener("click", (e) => {
+  createCharacter(document.getElementById("newcharname").value);
+})
+async function createCharacter(name) {
+  name = name.trim();
+  const dupe = document.querySelectorAll("input[name='character']");
+  for (const i of dupe) {
+    if (i.value.toLowerCase() === name.toLowerCase()) {
+      alert("That character already exists.");
+      return;
+    }
+  }
+  if (name === "") {
+    alert("Name can not be blank.");
+    return;
+  }
+  data[name] = {
+    general: "",
+    "key-moves": "",
+    combos: "",
+    _custom: true
+  }
+  const label = document.createElement("label");
+  const text = document.createTextNode(name.charAt(0).toUpperCase() + name.slice(1));
+  const input = document.createElement("input");
+  const img = document.createElement("img");
+  img.src = "Images/default.png";
+  img.alt = name;
+  input.type = "radio";
+  input.name = "character";
+  input.value = name;
+  input.hidden = true;
+  input.addEventListener("click", (e) => loadChar(e.target));
+  label.appendChild(text);
+  label.insertBefore(img, text);
+  label.appendChild(input);
+  label.setAttribute("data-custom", "true");
+  document.querySelector(".chars").appendChild(label);
+  document.getElementById("overlay").classList.add("hidden");
+  await setnotes(currentuser.uid);
+  document.getElementById("newcharname").value = "";
+}
