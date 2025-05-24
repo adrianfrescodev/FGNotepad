@@ -188,6 +188,8 @@ async function goHome() {
     delete quills[tab];
     openTabs.delete(tab);
   })
+  const placeholder = document.getElementById("tab-placeholder");
+  if (placeholder) placeholder.remove();
   currentCharacter = "";
   homepage.classList.remove("hidden");
   characterScreen.classList.add("hidden");
