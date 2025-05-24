@@ -63,7 +63,6 @@ async function loadnotes(userid) {
   if (docSnap.exists()) {
     Object.assign(data, docSnap.data());
   } else {
-
     console.log("No such document!");
   }
 }
@@ -90,7 +89,6 @@ onAuthStateChanged(auth, async (user) => {
     login.classList.remove("hidden");
   }
 })
-
 let homepage = document.getElementById("home");
 let characterScreen = document.getElementById("char-screen");
 let currentTab = "general";
@@ -98,7 +96,6 @@ let currentCharacterDisplayPc = document.getElementById("currentcharpc");
 let currentCharacterDisplayMobile = document.getElementById("currentcharmobile");
 let currentCharacter = "";
 let currentCharacterPicture = document.getElementById("currentpic");
-const userNotes = document.getElementById("user-notes");
 const selects = document.querySelectorAll("input[name='character']");
 selects.forEach(selection => {
   selection.addEventListener('click', (e) => {
@@ -107,22 +104,90 @@ selects.forEach(selection => {
 })
 const tabmap = {
   general: "General notes",
-  "key-moves": "Key moves",
+  "key-moves": "Key Moves",
   combos: "Combos"
 }
+let quills = {};
+const openTabs = new Set();
 const tabs = document.querySelectorAll("input[name='tab']");
 tabs.forEach(tab => {
   tab.addEventListener('click', (e) => {
-    switchTab(e.target);
+    const tab = e.target.value;
+    currentTab = tab;
+    if (openTabs.has(tab)) {
+      data[currentCharacter][tab] = quills[tab].root.innerHTML;
+      const wrap = document.getElementById(`editor-${tab}`);
+      wrap.remove();
+      delete quills[tab];
+      openTabs.delete(tab);
+      if (openTabs.size === 0) {
+        const placeholder = document.createElement("div");
+        placeholder.id = "tab-placeholder";
+        placeholder.classList.add("tab-placeholder");
+        placeholder.textContent = "Select a tab to begin editing.";
+        document.getElementById("quillbox").appendChild(placeholder);
+      }
+      const keyBox = document.getElementById("editor-key-moves");
+      if (keyBox && openTabs.size === 1) {
+        keyBox.style.width = "100%";
+        keyBox.style.maxWidth = "100%";
+      }
+      else {
+        keyBox.style.maxWidth = "35%";
+      }
+    }
+    else {
+      const placeholder = document.getElementById("tab-placeholder");
+      if (placeholder) placeholder.remove();
+      let box = document.getElementById("quillbox");
+
+      const holder = document.createElement("div");
+      holder.id = `editor-${tab}`;
+      holder.classList.add("editor-box");
+      const title = document.createElement("div");
+      title.classList.add("editor-title");
+      title.textContent = `${tabmap[tab]}`;
+      holder.appendChild(title);
+      box.appendChild(holder);
+      const quillContainer = document.createElement("div");
+      quillContainer.id = `quill-container-${tab}`;
+      holder.appendChild(quillContainer);
+
+      const quill = new Quill(`#quill-container-${tab}`, {
+        theme: 'bubble',
+        placeholder: tabmap[tab]
+      })
+
+      quill.root.innerHTML = data[currentCharacter][tab] || "";
+      quills[tab] = quill;
+      openTabs.add(tab);
+      const keyBox = document.getElementById("editor-key-moves");
+      if (keyBox && openTabs.size === 1) {
+        keyBox.style.width = "100%";
+        keyBox.style.maxWidth = "100%";
+      }
+      else {
+        keyBox.style.maxWidth = "35%";
+      }
+    }
+
   })
 })
 async function goHome() {
   if (currentCharacter) {
-    data[currentCharacter][currentTab] = userNotes.value;
-    if (currentuser) {
-      await setnotes(currentuser.uid);
-    }
+    Object.keys(quills).forEach(tab => {
+      data[currentCharacter][tab] = quills[tab].root.innerHTML;
+    })
   }
+  if (currentuser) {
+    await setnotes(currentuser.uid);
+  }
+  Object.keys(quills).forEach(tab => {
+    const wrap = document.getElementById(`editor-${tab}`);
+    if (wrap) wrap.remove();
+    delete quills[tab];
+    openTabs.delete(tab);
+  })
   currentCharacter = "";
   homepage.classList.remove("hidden");
   characterScreen.classList.add("hidden");
@@ -136,9 +201,12 @@ banner.addEventListener("click", async () => {
   await goHome()
 })
 function loadChar(newChar) {
-  if (currentCharacter !== "") {
-    data[currentCharacter][currentTab] = userNotes.value;
-  }
+  Object.keys(quills).forEach(tab => {
+    const wrap = document.getElementById(`editor-${tab}`);
+    if (wrap) wrap.remove();
+    delete quills[tab];
+    openTabs.delete(tab);
+  });
   currentCharacter = newChar.value;
   if (!data[newChar.value]) {
     data[newChar.value] = {
@@ -150,8 +218,26 @@ function loadChar(newChar) {
   }
   currentTab = "general";
   document.getElementById("general").checked = true;
-  userNotes.placeholder = tabmap[currentTab];
-  userNotes.value = data[currentCharacter][currentTab];
+  const box = document.getElementById("quillbox");
+  const holder = document.createElement("div");
+  holder.id = "editor-general";
+  holder.classList.add("editor-box");
+  box.appendChild(holder);
+  const title = document.createElement("div");
+  title.classList.add("editor-title");
+  title.textContent = "General";
+  holder.appendChild(title);
+  const quillContainer = document.createElement("div");
+  quillContainer.id = "quill-container-general";
+  holder.appendChild(quillContainer);
+  box.appendChild(holder);
+  const quill = new Quill(`#quill-container-general`, {
+    theme: 'bubble',
+    placeholder: tabmap["general"]
+  });
+  quill.root.innerHTML = data[currentCharacter]["general"];
+  quills["general"] = quill;
+  openTabs.add("general");
   currentCharacterDisplayPc.textContent = newChar.value;
   currentCharacterDisplayMobile.textContent = newChar.value;
   currentCharacterPicture.src = "Images/" + newChar.value + "-full.png";
@@ -160,15 +246,6 @@ function loadChar(newChar) {
   }
   homepage.classList.add("hidden");
   characterScreen.classList.remove("hidden");
-}
-async function switchTab(newtab) {
-  if (currentuser) {
-    await setnotes(currentuser.uid);
-  }
-  data[currentCharacter][currentTab] = userNotes.value;
-  currentTab = newtab.value;
-  userNotes.placeholder = tabmap[newtab.value];
-  userNotes.value = data[currentCharacter][currentTab];
 }
 document.addEventListener("beforeunload", () => {
   if (currentuser) {
@@ -208,13 +285,13 @@ async function createCharacter(name) {
     alert("Name can not be blank.");
     return;
   }
-  if(!data[name]){
+  if (!data[name]) {
     data[name] = {
-    general: "",
-    "key-moves": "",
-    combos: "",
-    _custom: true
-  }
+      general: "",
+      "key-moves": "",
+      combos: "",
+      _custom: true
+    }
   }
 
   const label = document.createElement("label");
@@ -237,7 +314,7 @@ async function createCharacter(name) {
   await setnotes(currentuser.uid);
   document.getElementById("newcharname").value = "";
 }
-function quickmake(name){
+function quickmake(name) {
   const label = document.createElement("label");
   const text = document.createTextNode(name.charAt(0).toUpperCase() + name.slice(1));
   const input = document.createElement("input");

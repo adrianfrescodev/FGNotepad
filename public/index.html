@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fighting Game Notepad</title>
+    <link href="https://cdn.quilljs.com/1.3.6/quill.bubble.css" rel="stylesheet">
     <link href="styles.css" rel="stylesheet">
 </head>
 
@@ -180,15 +181,14 @@
             <div class="character-notes">
                 <div class="character-name-mobile" id="currentcharmobile"></div>
                 <div class="character-labels">
-                    <input type="radio" name="tab" value="general" id="general" hidden checked>
+                    <input type="checkbox" name="tab" value="general" id="general" hidden>
                     <label for="general">General</label>
-                    <input type="radio" name="tab" value="key-moves" id="key-moves" hidden>
+                    <input type="checkbox" name="tab" value="key-moves" id="key-moves" hidden>
                     <label for="key-moves">Key Moves</label>
-                    <input type="radio" name="tab" value="combos" id="combos" hidden>
+                    <input type="checkbox" name="tab" value="combos" id="combos" hidden>
                     <label for="combos">Combos</label>
                 </div>
-                <div class="user-notes"><textarea id="user-notes" placeholder="General notes"></textarea>
-                </div>
+                <div id="quillbox"></div>
             </div>
             <div class="character-info">
                 <div class="character-picture">
@@ -202,6 +202,8 @@
             <p>Street Fighter and all related characters are trademarks or registered trademarks of Capcom Co., Ltd.</p>
         </footer>
         <script type="module" src="script.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+
 </body>
 
 </html>
