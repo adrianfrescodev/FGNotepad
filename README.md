@@ -13,5 +13,5 @@ FGNotepad was created to help fighting game players create and organize notes fo
 The site was created using HTML/CSS/JS.
 
 ## NEW VERSION
-[View the v2 React version here](https://github.com/adrianfrescodev/fgn-react)
+[View the v2 React version here](https://github.com/adrianfrescodev/fighting-game-notepad-v2)
 
